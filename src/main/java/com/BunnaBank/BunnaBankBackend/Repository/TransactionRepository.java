@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    List<Transaction> findByAccountNumber(String accountNumber);
-    Page<Transaction> findByAccountNumber(String accountNumber, Pageable pageable);
+    List<Transaction> findByCustomer_AccountNumber(String accountNumber);
+    Page<Transaction> findByCustomer_AccountNumber(String accountNumber, Pageable pageable);
     Page<Transaction> findByTransactionId(Long transactionId, Pageable pageable);
     Transaction findByTransactionId(Long transactionId);
 }

@@ -1,9 +1,12 @@
 package com.BunnaBank.BunnaBankBackend.Controller;
+import com.BunnaBank.BunnaBankBackend.DTO.TransactionRequest;
+import com.BunnaBank.BunnaBankBackend.DTO.TransactionResponse;
 import com.BunnaBank.BunnaBankBackend.Model.Transaction;
 import com.BunnaBank.BunnaBankBackend.Service.TransactionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -18,9 +21,18 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @PostMapping(value = "/add", consumes = "application/json")
-    public Transaction addTransaction(@RequestBody Transaction transaction) {
-        return transactionService.addTransaction(transaction);
+    @PostMapping("/add")
+    public ResponseEntity<TransactionResponse> addTransaction(@RequestBody TransactionRequest transaction) {
+//        try {
+            TransactionResponse  savedTransaction = transactionService.addTransaction(transaction);
+            return ResponseEntity.ok(savedTransaction);
+//        }catch (IllegalArgumentException e) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
+//        }
     }
 
 //    @GetMapping("/{transactionId}")
@@ -45,13 +57,13 @@ public class TransactionController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Transaction>> getTransactions(@RequestParam(required = false)  Long transactionId ,
+    public ResponseEntity<Page<TransactionResponse>> getTransactions(@RequestParam(required = false)  Long transactionId ,
                                                              @RequestParam(required = false)  String accountNumber,
                                                              @RequestParam(defaultValue = "0") int page,
                                                              @RequestParam(defaultValue = "10") int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Transaction> transactions = transactionService.getTransactions(transactionId, accountNumber, pageable);
+        Page<TransactionResponse> transactions = transactionService.getTransactions(transactionId, accountNumber, pageable);
         return ResponseEntity.ok(transactions);
     }
 

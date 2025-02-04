@@ -29,6 +29,7 @@ public class CustomerService {
         customer.setAccountNumber(generateUniqueAccountNumber());
         return customerRepository.save(customer);
     }
+
     public Customer updateCustomer(long id, Customer updatedCustomer) {
 
         Optional<Customer> existingCustomerOptional = customerRepository.findById(id);
@@ -74,6 +75,10 @@ public class CustomerService {
             return customerRepository.findByAccountNumber(accountNumber, sortedPageable);
         }
         return customerRepository.findAll(sortedPageable);
+    }
+
+    public Optional<Customer> findCustomer(String accountNumber) {
+        return customerRepository.findByAccountNumber(accountNumber);
     }
 
     private String generateUniqueAccountNumber() {

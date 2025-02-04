@@ -11,9 +11,6 @@ public class Transaction {
     private Long transactionId;
 
     @Column(nullable = false)
-    private String accountNumber;
-
-    @Column(nullable = false)
     private BigDecimal amount;
 
     @Column(nullable = false)
@@ -21,7 +18,11 @@ public class Transaction {
 
     private LocalDateTime createdDate = LocalDateTime.now();
 
-    private String postBy;
+    private String postedBy;
+
+    @ManyToOne
+    @JoinColumn(name = "account_number", referencedColumnName = "accountNumber", nullable = false)
+    private Customer customer;
 
 
     public Long getTransactionId() {
@@ -32,13 +33,13 @@ public class Transaction {
         this.transactionId = transactionId;
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
+//    public String getAccountNumber() {
+//        return accountNumber;
+//    }
+//
+//    public void setAccountNumber(String accountNumber) {
+//        this.accountNumber = accountNumber;
+//    }
 
     public BigDecimal getAmount() {
         return amount;
@@ -64,12 +65,20 @@ public class Transaction {
         this.createdDate = createdDate;
     }
 
-    public String getPostBy() {
-        return postBy;
+    public String getPostedBy() {
+        return postedBy;
     }
 
-    public void setPostBy(String postBy) {
-        this.postBy = postBy;
+    public void setPostedBy(String postedBy) {
+        this.postedBy = postedBy;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
 }
